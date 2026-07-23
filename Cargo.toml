@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/web",
+    "crates/bot-discord",
+    "crates/bot-minecraft",
+    "crates/shared",
+]
+resolver = "2"
+default-members = ["crates/core"]
