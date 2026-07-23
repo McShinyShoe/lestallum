@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bot-discord = { path = "../bot-discord" }
+bot-minecraft = { path = "../bot-minecraft" }
+lestallum-web = { path = "../web", features = ["ssr"] }
+tokio = { version = "1", features = ["rt", "net", "time"] }

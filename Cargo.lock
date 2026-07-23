@@ -1121,8 +1121,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "lestallum-api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "serde",
+]
+
+[[package]]
 name = "lestallum-core"
 version = "0.1.0"
+dependencies = [
+ "bot-discord",
+ "bot-minecraft",
+ "lestallum-web",
+ "tokio",
+]
 
 [[package]]
 name = "lestallum-shared"
@@ -1138,6 +1152,7 @@ dependencies = [
  "leptos_axum",
  "leptos_meta",
  "leptos_router",
+ "lestallum-api",
  "tokio",
  "wasm-bindgen",
 ]
