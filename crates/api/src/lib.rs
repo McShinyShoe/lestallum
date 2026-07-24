@@ -1,15 +1,7 @@
-use axum::{routing::get, Json, Router};
-use serde::Serialize;
+mod controllers;
 
-#[derive(Serialize)]
-struct Health {
-    status: &'static str,
-}
-
-async fn health() -> Json<Health> {
-    Json(Health { status: "ok" })
-}
+use axum::Router;
 
 pub fn router() -> Router {
-    Router::new().route("/health", get(health))
+    Router::new().merge(controllers::health::router())
 }
