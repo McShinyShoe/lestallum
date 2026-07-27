@@ -1,16 +1,19 @@
 pub mod app;
 
 #[cfg(feature = "ssr")]
-pub async fn run() {
+pub async fn run(state: shared::app_state::SharedState) {
     use crate::app::*;
     use axum::Router;
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
 
+    tracing::info!("Starting website thread...");
+
     let conf = get_configuration(None).unwrap();
-    let addr = conf.leptos_options.site_addr;
-    let leptos_options = conf.leptos_options;
+    let addr = state.config.site_addr();
+    let mut leptos_options = conf.leptos_options;
+    leptos_options.site_addr = addr;
     // Generate the list of routes in your Leptos App
     let routes = generate_route_list(App);
 

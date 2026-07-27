@@ -14,18 +14,17 @@ console_error_panic_hook = { version = "0.1", optional = true }
 leptos_axum = { version = "0.8.0", optional = true }
 leptos_meta = { version = "0.8.0" }
 lestallum-api = { path = "../api", optional = true }
+shared = { path = "../shared", optional = true }
 tokio = { version = "1", features = ["net"], optional = true }
 wasm-bindgen = { version = "0.2.106", optional = true }
+tracing = "0.1"
 
 [features]
-hydrate = [
-    "leptos/hydrate",
-    "dep:console_error_panic_hook",
-    "dep:wasm-bindgen",
-]
+hydrate = ["leptos/hydrate", "dep:console_error_panic_hook", "dep:wasm-bindgen"]
 ssr = [
     "dep:axum",
     "dep:lestallum-api",
+    "dep:shared",
     "dep:tokio",
     "dep:leptos_axum",
     "leptos/ssr",
