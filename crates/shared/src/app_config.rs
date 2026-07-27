@@ -1,27 +1,65 @@
+use std::fmt;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 use config::{Config, Environment};
 use serde::Deserialize;
 
+#[derive(Deserialize)]
+pub struct DatabaseConfig {
+    pub url: String,
+    pub max_connections: u32,
+    pub min_connections: u32,
+    pub connect_timeout_secs: u64,
+    pub acquire_timeout_secs: u64,
+}
+
+impl fmt::Debug for DatabaseConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("DatabaseConfig")
+            .field("url", &"<redacted>")
+            .field("max_connections", &self.max_connections)
+            .field("min_connections", &self.min_connections)
+            .field("connect_timeout_secs", &self.connect_timeout_secs)
+            .field("acquire_timeout_secs", &self.acquire_timeout_secs)
+            .finish()
+    }
+}
+
 #[derive(Debug, Deserialize)]
 pub struct AppConfig {
     pub host: IpAddr,
     pub port: u16,
+    pub database: DatabaseConfig,
 }
 
 impl AppConfig {
     pub fn new() -> anyhow::Result<AppConfig> {
         tracing::info!("Loading config...");
-        let cfg = Config::builder()
+        let mut builder = Config::builder()
             .set_default("host", Ipv4Addr::LOCALHOST.to_string())?
             .set_default("port", 3000)?
+            .set_default("database.max_connections", 10)?
+            .set_default("database.min_connections", 1)?
+            .set_default("database.connect_timeout_secs", 8)?
+            .set_default("database.acquire_timeout_secs", 8)?
             .add_source(config::File::with_name("config").required(false))
             .add_source(config::File::with_name("config.local").required(false))
-            .add_source(Environment::default().prefix("APP").separator("_"))
-            .build()?;
-        tracing::info!("Config loaded.");
+            .add_source(
+                Environment::default()
+                    .prefix("APP")
+                    .prefix_separator("_")
+                    .separator("__"),
+            );
 
-        Ok(cfg.try_deserialize()?)
+        if let Ok(url) = std::env::var("DATABASE_URL") {
+            builder = builder.set_default("database.url", url)?;
+        }
+
+        let cfg: AppConfig = builder.build()?.try_deserialize()?;
+        tracing::info!("Config loaded.");
+        tracing::debug!(config = ?cfg);
+
+        Ok(cfg)
     }
 
     pub fn site_addr(&self) -> SocketAddr {

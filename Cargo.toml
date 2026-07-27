@@ -6,6 +6,8 @@ members = [
     "crates/bot-discord",
     "crates/bot-minecraft",
     "crates/shared",
+    "crates/db",
+    "crates/db/migration",
 ]
 resolver = "2"
 default-members = ["crates/core"]
