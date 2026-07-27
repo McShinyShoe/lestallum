@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use db::controllers::DatabaseController;
+
 use crate::app_config::AppConfig;
 
 pub type SharedState = Arc<AppState>;
@@ -7,10 +9,11 @@ pub type SharedState = Arc<AppState>;
 #[derive(Debug)]
 pub struct AppState {
     pub config: AppConfig,
+    pub database: DatabaseController,
 }
 
 impl AppState {
-    pub fn new(config: AppConfig) -> SharedState {
-        Arc::new(Self { config })
+    pub fn new(config: AppConfig, database: DatabaseController) -> SharedState {
+        Arc::new(Self { config, database })
     }
 }

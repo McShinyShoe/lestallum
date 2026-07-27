@@ -971,7 +971,7 @@ version = "0.1.0"
 dependencies = [
  "log",
  "sea-orm",
- "shared",
+ "serde",
 ]
 
 [[package]]
@@ -2060,6 +2060,7 @@ dependencies = [
  "anyhow",
  "bot-discord",
  "bot-minecraft",
+ "db",
  "lestallum-web",
  "shared",
  "tokio",
@@ -3532,6 +3533,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "config",
+ "db",
  "serde",
  "tracing",
 ]

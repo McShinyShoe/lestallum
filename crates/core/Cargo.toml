@@ -6,9 +6,10 @@ edition = "2024"
 [dependencies]
 bot-discord = { path = "../bot-discord" }
 bot-minecraft = { path = "../bot-minecraft" }
+db = { path = "../db" }
 lestallum-web = { path = "../web", features = ["ssr"] }
 shared = { path = "../shared" }
-tokio = { version = "1", features = ["rt", "net", "time"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "net", "time"] }
 anyhow = "1.0"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }

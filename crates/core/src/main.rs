@@ -1,6 +1,7 @@
 use std::future::Future;
 use std::thread;
 
+use db::controllers::DatabaseController;
 use shared::app_config::AppConfig;
 use shared::app_state::{AppState, SharedState};
 
@@ -19,7 +20,15 @@ fn spawn_service(
 fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::try_init().map_err(|e| anyhow::anyhow!(e))?;
 
-    let state: SharedState = AppState::new(AppConfig::new()?);
+    let config = AppConfig::new()?;
+
+    let database_runtime = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .worker_threads(1)
+        .build()?;
+    let database = database_runtime.block_on(DatabaseController::connect(&config.database))?;
+
+    let state: SharedState = AppState::new(config, database);
 
     let services = [
         ("web", spawn_service(lestallum_web::run(state.clone()))),

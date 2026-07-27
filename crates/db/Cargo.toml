@@ -10,4 +10,4 @@ sea-orm = { version = "2.0", features = [
     "runtime-tokio-rustls",
     "macros",
 ] }
-shared = { path = "../shared" }
+serde = { version = "1", features = ["derive"] }

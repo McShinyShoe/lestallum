@@ -1,9 +1,12 @@
+pub mod config;
+pub mod controllers;
 pub mod entities;
 
 use std::time::Duration;
 
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
-use shared::app_config::DatabaseConfig;
+
+use crate::config::DatabaseConfig;
 
 pub async fn connect(config: &DatabaseConfig) -> Result<DatabaseConnection, DbErr> {
     let mut options = ConnectOptions::new(config.url.clone());
