@@ -42,6 +42,13 @@ site-pkg-dir = "pkg"
 
 # [Optional] The source CSS file. If it ends with .sass or .scss then it will be compiled by dart-sass into CSS. The CSS is optimized by Lightning CSS before being written to <site-root>/<site-pkg>/lestallum-web.css
 style-file = "crates/web/style/main.scss"
+
+# [Optional] The source Tailwind entrypoint and (legacy) config. Tailwind output is
+# appended to the compiled `style-file` output in <site-root>/<site-pkg>/lestallum-web.css.
+# The daisyui/tw-animate-css plugins are resolved from crates/web/node_modules,
+# so `npm install` must have been run in crates/web before building.
+tailwind-input-file = "crates/web/style/tailwind.css"
+tailwind-config-file = "crates/web/tailwind.config.js"
 # Assets source dir. All files found here will be copied and synchronized to site-root.
 # The assets-dir cannot have a sub directory with the same name/path as site-pkg-dir.
 #

@@ -12,3 +12,6 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+# npm packages used for tailwind/daisyui during cargo-leptos build
+node_modules/

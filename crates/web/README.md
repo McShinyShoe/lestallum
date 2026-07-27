@@ -1,91 +1,76 @@
-<picture>
-    <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">
-    <img src="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_RGB.svg" alt="Leptos Logo">
-</picture>
+# lestallum-web
 
-# Leptos Axum Starter Template
+The Leptos app for Lestallum Town. Compiled twice: once with the `ssr` feature into the
+server (driven by `lestallum-core`, which calls `run()` from `src/lib.rs`), and once with
+the `hydrate` feature into the WASM bundle that takes over in the browser.
 
-This is a template for use with the [Leptos](https://github.com/leptos-rs/leptos) web framework and the [cargo-leptos](https://github.com/akesson/cargo-leptos) tool using [Axum](https://github.com/tokio-rs/axum).
+The `ssr` build also mounts `lestallum-api` under `/api`.
 
-## Creating your template repo
+## Routes
 
-If you don't have `cargo-leptos` installed you can install it with
+| Path           | Page                 |
+| -------------- | -------------------- |
+| `/`            | `pages::home`        |
+| `/areas`       | `pages::areas`       |
+| `/areas/:area` | `pages::area_detail` |
+| `/rules`       | `pages::rules`       |
+| anything else  | `pages::not_found`   |
+
+`/areas/:area` matches the `slug` field of the entries in `src/data.rs`; an unknown slug
+renders the in-page "unknown district" view rather than the global 404.
+
+The navbar and footer also link to `/map`, `/lore`, `/gallery` and `/wiki`. Those routes do
+not exist yet and currently fall through to the 404 page.
+
+## Layout
+
+- `src/app.rs` — document shell and the route table
+- `src/data.rs` — the `AREAS` table (name, theme, accent colors, screenshots) and `DISCORD_URL`
+- `src/pages/` — one module per route
+- `src/layouts/main.rs` — navbar + overlay animations + footer wrapper used by every page
+- `src/components/sections/` — navbar and footer
+- `src/components/animations/` — scroll-triggered reveal and the randomly scheduled overlay videos
+- `public/` — static assets, copied to the site root by cargo-leptos
+- `style/main.scss` — plain SCSS; `style/tailwind.css` — Tailwind entrypoint with the daisyUI theme
+
+Both stylesheets are compiled and concatenated into `target/site/pkg/lestallum-web.css`.
+
+## Building
+
+Tailwind pulls in `daisyui` and `tw-animate-css` through `@plugin` / `@import`, which are
+resolved from `node_modules` in this directory. Install them once before the first build:
 
 ```bash
-cargo install cargo-leptos --locked
+npm install
 ```
 
-Then run
-```bash
-cargo leptos new --git https://github.com/leptos-rs/start-axum
-```
-
-to generate a new project template.
-
-```bash
-cd lestallum-web
-```
-
-to go to your newly created project.
-Feel free to explore the project structure, but the best place to start with your application code is in `src/app.rs`.
-Additionally, Cargo.toml may need updating as new versions of the dependencies are released, especially if things are not working after a `cargo update`.
-
-## Running your project
+Then build or watch from the workspace root, since the `[[workspace.metadata.leptos]]`
+config lives there:
 
 ```bash
 cargo leptos watch
-```
-
-## Installing Additional Tools
-
-By default, `cargo-leptos` uses `nightly` Rust, `cargo-generate`, and `sass`. If you run into any trouble, you may need to install one or more of these tools.
-
-1. `rustup toolchain install nightly --allow-downgrade` - make sure you have Rust nightly
-2. `rustup target add wasm32-unknown-unknown` - add the ability to compile Rust to WebAssembly
-3. `cargo install cargo-generate` - install `cargo-generate` binary (should be installed automatically in future)
-4. `npm install -g sass` - install `dart-sass` (should be optional in future
-5. Run `npm install` in end2end subdirectory before test
-
-## Compiling for Release
-```bash
 cargo leptos build --release
 ```
 
-Will generate your server binary in target/release and your site package in target/site
+`cargo build --workspace` compiles the server side only and skips the WASM and CSS steps,
+which makes it a much faster check while working on the `ssr` code.
 
-## Testing Your Project
+To check the browser build on its own:
+
 ```bash
-cargo leptos end-to-end
+cargo check -p lestallum-web --target wasm32-unknown-unknown --no-default-features --features hydrate
 ```
 
+## End-to-end tests
+
+Playwright specs live in `end2end/tests`. Run `npm install` in `end2end/` once, then:
+
 ```bash
+cargo leptos end-to-end
 cargo leptos end-to-end --release
 ```
 
-Cargo-leptos uses Playwright as the end-to-end test tool.
-Tests are located in end2end/tests directory.
-
-## Executing a Server on a Remote Machine Without the Toolchain
-After running a `cargo leptos build --release` the minimum files needed are:
-
-1. The server binary located in `target/server/release`
-2. The `site` directory and all files within located in `target/site`
-
-Copy these files to your remote server. The directory structure should be:
-```text
-lestallum-web
-site/
-```
-Set the following environment variables (updating for your project as needed):
-```sh
-export LEPTOS_OUTPUT_NAME="lestallum-web"
-export LEPTOS_SITE_ROOT="site"
-export LEPTOS_SITE_PKG_DIR="pkg"
-export LEPTOS_SITE_ADDR="127.0.0.1:3000"
-export LEPTOS_RELOAD_PORT="3001"
-```
-Finally, run the server binary.
-
 ## Licensing
 
-This template itself is released under the Unlicense. You should replace the LICENSE for your own application with an appropriate license if you plan to release it publicly.
+`LICENSE` in this directory is the Unlicense that shipped with the Leptos starter template
+and covers the template scaffolding only.

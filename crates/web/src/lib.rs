@@ -1,4 +1,10 @@
+#![recursion_limit = "512"]
+
 pub mod app;
+pub mod components;
+pub mod data;
+pub mod layouts;
+mod pages;
 
 #[cfg(feature = "ssr")]
 pub async fn run(state: shared::app_state::SharedState) {
