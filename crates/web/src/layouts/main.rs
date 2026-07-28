@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use leptos::prelude::*;
 
 use crate::components::animations::overlay_group::{OverlayAnimation, OverlayAnimationGroup};

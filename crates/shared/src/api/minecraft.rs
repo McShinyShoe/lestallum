@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64;
 use reqwest::Client;

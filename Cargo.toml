@@ -12,6 +12,10 @@ members = [
 resolver = "2"
 default-members = ["crates/core"]
 
+[workspace.package]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/McShinyShoe/lestallum"
+
 # Defines a size-optimized profile for the WASM bundle in release mode
 [profile.wasm-release]
 inherits = "release"

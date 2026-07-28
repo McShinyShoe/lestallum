@@ -1,0 +1,40 @@
+[graph]
+all-features = true
+
+[licenses]
+confidence-threshold = 0.93
+allow = [
+    "GPL-3.0-or-later",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "MIT",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "BSL-1.0",
+    "Unicode-3.0",
+    "Unlicense",
+    "CC0-1.0",
+    "CDLA-Permissive-2.0",
+]
+
+[advisories]
+yanked = "deny"
+
+[[advisories.ignore]]
+id = "RUSTSEC-2024-0436"
+reason = "paste is unmaintained, not vulnerable. Reached only transitively through leptos macro expansion; no successor crate exists. Revisit when leptos drops it."
+
+[[advisories.ignore]]
+id = "RUSTSEC-2026-0173"
+reason = "proc-macro-error2 is unmaintained, not vulnerable. Reached only transitively through leptos_macro; upstream has no maintained fork. Revisit when leptos drops it."
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

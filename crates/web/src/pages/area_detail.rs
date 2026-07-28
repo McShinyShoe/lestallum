@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use leptos::prelude::*;
 use leptos::web_sys;
 use leptos_meta::Title;

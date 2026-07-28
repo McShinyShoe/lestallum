@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 use config::{Config, Environment};

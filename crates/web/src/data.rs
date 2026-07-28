@@ -1,4 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 pub const DISCORD_URL: &str = "https://lestallum.shinyshoe.net/discord";
+pub const SOURCE_URL: &str = "https://github.com/McShinyShoe/lestallum";
+pub const LICENSE_URL: &str = "https://github.com/McShinyShoe/lestallum/blob/master/LICENCE";
 
 #[derive(Clone, Copy)]
 pub struct AreaInfo {

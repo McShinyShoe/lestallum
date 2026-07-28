@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 use leptos::prelude::*;
 
-use crate::data::DISCORD_URL;
+use crate::data::{DISCORD_URL, LICENSE_URL, SOURCE_URL};
 
 #[component]
 pub fn SiteFooter() -> impl IntoView {
@@ -59,6 +61,31 @@ pub fn SiteFooter() -> impl IntoView {
                 <div class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 text-sm text-base-content/50 sm:flex-row">
                     <p>"© 2026 ShinyShoe. Not affiliated with Mojang or Microsoft."</p>
                     <p>"Created with Leptos :3"</p>
+                </div>
+
+                <div class="mt-6 space-y-2 text-xs leading-relaxed text-base-content/40">
+                    <p>
+                        "Lestallum is free software: you may redistribute and modify it under the terms of the "
+                        <a
+                            href=LICENSE_URL
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="underline underline-offset-2 transition hover:text-emerald-400"
+                        >
+                            "GNU General Public License, version 3 or later"
+                        </a>
+                        ". It comes with ABSOLUTELY NO WARRANTY, to the extent permitted by law."
+                    </p>
+                    <p>
+                        <a
+                            href=SOURCE_URL
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="underline underline-offset-2 transition hover:text-emerald-400"
+                        >
+                            "Source code"
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>

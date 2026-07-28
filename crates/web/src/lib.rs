@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #![recursion_limit = "512"]
 
 pub mod app;

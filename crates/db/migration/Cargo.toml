@@ -1,8 +1,9 @@
 [package]
 edition = "2024"
-name    = "migration"
+name = "migration"
 publish = false
 version = "0.1.0"
+license.workspace = true
 
 [lib]
 name = "migration"
@@ -13,4 +14,4 @@ tokio = { version = "1", features = ["macros", "rt", "rt-multi-thread"] }
 
 [dependencies.sea-orm-migration]
 features = ["runtime-tokio-rustls", "sqlx-postgres"]
-version  = "2.0.0"
+version = "2.0.0"
