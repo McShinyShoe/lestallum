@@ -8,6 +8,7 @@ pub struct Model {
     pub id: String,
     #[sea_orm(unique)]
     pub mc_name: String,
+    pub password_hash: String,
 }
 
 impl ActiveModelBehavior for ActiveModel {}

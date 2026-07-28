@@ -12,10 +12,16 @@ impl UserController {
         Self { connection }
     }
 
-    pub async fn create(&self, id: String, mc_name: String) -> Result<user::Model, DbErr> {
+    pub async fn create(
+        &self,
+        id: String,
+        mc_name: String,
+        password_hash: String,
+    ) -> Result<user::Model, DbErr> {
         user::ActiveModel {
             id: Set(id),
             mc_name: Set(mc_name),
+            password_hash: Set(password_hash),
         }
         .insert(&self.connection)
         .await
@@ -29,6 +35,20 @@ impl UserController {
         user::Entity::find_by_mc_name(mc_name)
             .one(&self.connection)
             .await
+    }
+
+    pub async fn update_password_hash(
+        &self,
+        id: &str,
+        password_hash: String,
+    ) -> Result<Option<user::Model>, DbErr> {
+        let Some(model) = self.find_by_id(id).await? else {
+            return Ok(None);
+        };
+
+        let mut active: user::ActiveModel = model.into();
+        active.password_hash = Set(password_hash);
+        active.update(&self.connection).await.map(Some)
     }
 
     pub async fn list(&self) -> Result<Vec<user::Model>, DbErr> {
